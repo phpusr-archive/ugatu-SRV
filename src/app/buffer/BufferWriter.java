@@ -6,6 +6,8 @@ package app.buffer;
  *         Time: 15:11
  */
 
+import app.main.Const;
+
 /**
  * Поток пищущий в буфер
  */
@@ -22,7 +24,8 @@ public class BufferWriter extends Thread {
     /** Пишет в буфер значение: writeValue */
     @Override
     public void run() {
-        System.out.println("BufferWriter:: " + writeValue);
+        System.out.println("--------------------------------");
+        if (Const.LOG_BUFFER_WRITER) System.out.println("BufferWriter:: write value = " + writeValue);
         Buffer.pushValue(writeValue);
     }
 }

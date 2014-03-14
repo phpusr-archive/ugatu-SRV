@@ -6,6 +6,8 @@ package app.buffer;
  *         Time: 15:14
  */
 
+import app.main.Const;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +41,7 @@ public class BufferReader extends Thread {
     private void checkBuffer() {
         BufferValue bufferValue = Buffer.pullValue();
         if (bufferValue != null) {
-            System.out.println("BufferedReader:: found new value=" + bufferValue);
+            if (Const.LOG_BUFFER_READER) System.out.println("BufferedReader:: found new value = " + bufferValue);
             bufferValueList.add(bufferValue);
         }
     }

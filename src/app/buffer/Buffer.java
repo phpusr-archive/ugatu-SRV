@@ -6,6 +6,8 @@ package app.buffer;
  *         Time: 15:13
  */
 
+import app.main.Const;
+
 /**
  * Буфер, который хранит одно сообщение
  */
@@ -25,5 +27,6 @@ public class Buffer {
     /** Устанавливает значение буфера */
     public static void pushValue(BufferValue value) {
         Buffer.value = value;
+        if (Const.LOG_BUFFER) System.out.println("Buffer:: value = " + value);
     }
 }
