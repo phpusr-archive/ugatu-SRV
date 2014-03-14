@@ -1,4 +1,4 @@
-package app;
+package app.buffer;
 
 /**
  * @author phpusr
@@ -22,6 +22,6 @@ public class BufferWriter extends Thread {
     /** Пишет в буфер значение: writeValue */
     @Override
     public void run() {
-        Buffer.setValue(writeValue);
+        Buffer.pushValue(writeValue);
     }
 }
