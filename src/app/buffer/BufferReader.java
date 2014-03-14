@@ -44,15 +44,13 @@ public class BufferReader extends Thread {
         }
     }
 
-    /** Возвращает весь буфер в виде одной строки */
-    public String getBufferString() {
-        StringBuilder bufferString = new StringBuilder();
-        for (BufferValue bufferValue : bufferValueList) {
-            bufferString.append(bufferValue.getStringValue());
-            bufferString.append(" | ");
+    /** Вытаскивает первое значение из буфера в виде строки */
+    public String pullValue() {
+        if (bufferValueList.size() > 0) {
+            return bufferValueList.remove(0).getStringValue();
+        } else {
+            return null;
         }
-
-        return bufferString.toString();
     }
 
 }

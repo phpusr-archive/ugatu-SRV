@@ -41,7 +41,7 @@ public class MainWindow extends JFrame {
         panel.add(messagePussherButton);
 
         //Лейбл для вывода сообщений из буфера
-        bufferMessagesLabel = new JLabel("Label");
+        bufferMessagesLabel = new JLabel("Values from buffer: ");
         panel.add(bufferMessagesLabel);
 
         //Считыватель буфера
@@ -71,7 +71,7 @@ public class MainWindow extends JFrame {
         final Timer timer = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                bufferMessagesLabel.setText(bufferReader.getBufferString());
+                addValueToLabel(bufferReader.pullValue());
             }
         });
         Thread thread = new Thread(new Runnable() {
@@ -81,6 +81,13 @@ public class MainWindow extends JFrame {
             }
         });
         thread.start();
+    }
+
+    /** Добавляет новое значение к лейблу */
+    private void addValueToLabel(String value) {
+        if (value != null) {
+            bufferMessagesLabel.setText(bufferMessagesLabel.getText() + value + " ");
+        }
     }
 
 }
