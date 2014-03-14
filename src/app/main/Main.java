@@ -6,6 +6,7 @@ package app.main;
  *         Time: 15:48
  */
 
+import app.buffer.BufferReader;
 import app.ui.MainWindow;
 
 /**
@@ -14,7 +15,11 @@ import app.ui.MainWindow;
 public class Main {
 
     public static void main(String[] args) {
+        //Главное окно
         new MainWindow();
+
+        //Считыватель буфера
+        new BufferReader().start();
     }
 
 }

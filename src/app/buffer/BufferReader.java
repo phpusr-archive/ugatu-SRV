@@ -39,6 +39,7 @@ public class BufferReader extends Thread {
     private void checkBuffer() {
         BufferValue bufferValue = Buffer.pullValue();
         if (bufferValue != null) {
+            System.out.println("BufferedReader:: found new value=" + bufferValue);
             bufferValueList.add(bufferValue);
         }
     }
