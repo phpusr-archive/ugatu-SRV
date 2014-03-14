@@ -17,7 +17,7 @@ public class Buffer {
     private static BufferValue value;
 
     /** Вытаскивает значение из буфера */
-    public static BufferValue pullValue() {
+    public synchronized static BufferValue pullValue() {
         BufferValue retValue = value;
         value = null;
 
@@ -25,7 +25,7 @@ public class Buffer {
     }
 
     /** Устанавливает значение буфера */
-    public static void pushValue(BufferValue value) {
+    public synchronized static void pushValue(BufferValue value) {
         Buffer.value = value;
         if (Const.LOG_BUFFER) System.out.println("Buffer:: value = " + value);
     }
