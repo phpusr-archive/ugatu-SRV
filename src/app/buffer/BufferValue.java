@@ -10,15 +10,14 @@ package app.buffer;
  * Значение для записи в буфер
  */
 public class BufferValue {
+
     private int value = 0;
 
     public BufferValue(int value) {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
+    public String getStringValue() { return "" + value; }
 
     @Override
     public String toString() {

@@ -18,8 +18,6 @@ public class Main {
         //Главное окно
         new MainWindow();
 
-        //Считыватель буфера
-        new BufferReader().start();
     }
 
 }

@@ -1,5 +1,6 @@
 package app.ui;
 
+import app.buffer.BufferReader;
 import app.buffer.BufferValue;
 import app.buffer.BufferWriter;
 
@@ -22,6 +23,12 @@ public class MainWindow extends JFrame {
     /** Кнопка подачи сообщений в буфер */
     JButton messagePussherButton = null;
 
+    /** Лейбл для вывода сообщений */
+    JLabel bufferMessagesLabel = null;
+
+    /** Считыватель буфера */
+    BufferReader bufferReader = null;
+
     public MainWindow() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -34,8 +41,12 @@ public class MainWindow extends JFrame {
         panel.add(messagePussherButton);
 
         //Лейбл для вывода сообщений из буфера
-        JLabel bufferMessagesLabel = new JLabel("Label");
+        bufferMessagesLabel = new JLabel("Label");
         panel.add(bufferMessagesLabel);
+
+        //Считыватель буфера
+        bufferReader = new BufferReader();
+        bufferReader.start();
 
         //Инициализация экшенов
         initActions();
@@ -55,6 +66,21 @@ public class MainWindow extends JFrame {
                 bufferWriter.start();
             }
         });
+
+        //Таймер обрабатывающий сообщения из буфера
+        final Timer timer = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                bufferMessagesLabel.setText(bufferReader.getBufferString());
+            }
+        });
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                timer.start();
+            }
+        });
+        thread.start();
     }
 
 }

@@ -16,8 +16,8 @@ import java.util.List;
  * Поток, читающий буфер
  */
 public class BufferReader extends Thread {
-
-    List<BufferValue> bufferValueList;
+    /** Буфер для хранения нескольких сообщений */
+    private List<BufferValue> bufferValueList;
 
     public BufferReader() {
         bufferValueList = new ArrayList<BufferValue>();
@@ -42,6 +42,17 @@ public class BufferReader extends Thread {
             System.out.println("BufferedReader:: found new value=" + bufferValue);
             bufferValueList.add(bufferValue);
         }
+    }
+
+    /** Возвращает весь буфер в виде одной строки */
+    public String getBufferString() {
+        StringBuilder bufferString = new StringBuilder();
+        for (BufferValue bufferValue : bufferValueList) {
+            bufferString.append(bufferValue.getStringValue());
+            bufferString.append(" | ");
+        }
+
+        return bufferString.toString();
     }
 
 }
