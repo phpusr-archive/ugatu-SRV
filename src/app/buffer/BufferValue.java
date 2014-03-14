@@ -19,4 +19,11 @@ public class BufferValue {
     public int getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "BufferValue{" +
+                "value=" + value +
+                '}';
+    }
 }

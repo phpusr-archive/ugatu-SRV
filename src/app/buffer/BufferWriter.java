@@ -22,6 +22,7 @@ public class BufferWriter extends Thread {
     /** Пишет в буфер значение: writeValue */
     @Override
     public void run() {
+        System.out.println("BufferWriter:: " + writeValue);
         Buffer.pushValue(writeValue);
     }
 }
