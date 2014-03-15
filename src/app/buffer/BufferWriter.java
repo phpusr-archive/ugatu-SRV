@@ -9,7 +9,7 @@ package app.buffer;
 import app.main.Const;
 
 /**
- * Поток пищущий в буфер
+ * Поток пишущий в буфер
  */
 public class BufferWriter extends Thread {
 
