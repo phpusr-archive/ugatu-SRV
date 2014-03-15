@@ -11,7 +11,7 @@ import app.main.Const;
 /**
  * Буфер, который хранит одно сообщение
  */
-public class Buffer {
+class Buffer {
 
     /** Значение буфера */
     private static BufferValue value;

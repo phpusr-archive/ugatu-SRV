@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class BufferReader extends Thread {
     /** Буфер для хранения нескольких сообщений */
-    private List<BufferValue> bufferValueList;
+    private final List<BufferValue> bufferValueList;
 
     public BufferReader() {
         bufferValueList = new ArrayList<BufferValue>();

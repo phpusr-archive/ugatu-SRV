@@ -21,24 +21,24 @@ import java.awt.event.ActionListener;
 public class MainWindow extends JFrame {
 
     /** Кнопка подачи сообщений в буфер */
-    JButton messagePussherButton = null;
+    private final JButton messagePusherButton;
 
     /** Лейбл для вывода сообщений */
-    JLabel bufferMessagesLabel = null;
+    private final JLabel bufferMessagesLabel;
 
     /** Считыватель буфера */
-    BufferReader bufferReader = null;
+    private final BufferReader bufferReader;
 
     public MainWindow() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         Container container = getContentPane();
         container.add(panel);
 
         //Кнопка подачи сообщений в буфер
-        messagePussherButton = new JButton("Push message to buffer");
-        panel.add(messagePussherButton);
+        messagePusherButton = new JButton("Push message to buffer");
+        panel.add(messagePusherButton);
 
         //Лейбл для вывода сообщений из буфера
         bufferMessagesLabel = new JLabel("Values from buffer: ");
@@ -58,7 +58,7 @@ public class MainWindow extends JFrame {
     /** Инициализация экшенов */
     private void initActions() {
         //Экшэн нажатия на кнопку, записывает сообщение в буфер
-        messagePussherButton.addActionListener(new ActionListener() {
+        messagePusherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int randomValue = (int) (Math.random() * 1000);

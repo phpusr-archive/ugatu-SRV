@@ -14,7 +14,7 @@ import app.main.Const;
 public class BufferWriter extends Thread {
 
     /** Значение для записи в буфер */
-    private BufferValue writeValue;
+    private final BufferValue writeValue;
 
     /** Конструктор */
     public BufferWriter(BufferValue writeValue) {

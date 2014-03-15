@@ -6,7 +6,6 @@ package app.main;
  *         Time: 15:48
  */
 
-import app.buffer.BufferReader;
 import app.ui.MainWindow;
 
 /**

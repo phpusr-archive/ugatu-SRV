@@ -11,10 +11,10 @@ package app.main;
  */
 public class Const {
 
-    public static boolean LOG_BUFFER = true;
+    public static final boolean LOG_BUFFER = true;
 
-    public static boolean LOG_BUFFER_READER = true;
+    public static final boolean LOG_BUFFER_READER = true;
 
-    public static boolean LOG_BUFFER_WRITER = true;
+    public static final boolean LOG_BUFFER_WRITER = true;
 
 }
