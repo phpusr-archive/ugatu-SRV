@@ -1,0 +1,36 @@
+apply plugin: 'java'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
+repositories {
+    //mavenCentral()
+    //mavenLocal()	
+}
+
+dependencies {
+
+}
+
+def mainClassName = 'app.main.Main'
+
+jar {
+    manifest {
+        attributes("Author": "Doronin Sergey", "Main-Class": mainClassName)
+    }
+}
+
+sourceCompatibility = "1.6"
+
+// --offline
+task run(type: JavaExec, dependsOn: classes) {
+    main = mainClassName
+	args = []
+    classpath sourceSets.main.runtimeClasspath
+    //classpath configurations.runtime // Не обязательно
+}
