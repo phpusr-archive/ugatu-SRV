@@ -1,5 +1,12 @@
 apply plugin: 'java'
 
+//---------------------------
+project.buildDir = 'out'
+def mainSrcDir = "${projectDir}/src"
+def mainClassName = 'app.main.Main'
+def manifestFile = "${mainSrcDir}/META-INF/MANIFEST.MF"
+//---------------------------
+
 sourceSets {
     main {
         java {
@@ -23,11 +30,10 @@ compileJava {
     options.encoding = "UTF-8"
 }
 
-def mainClassName = 'app.main.Main'
-
 jar {
     manifest {
-        attributes("Author": "Doronin Sergey", "Main-Class": mainClassName)
+        from manifestFile
+        //attributes("Author": "Doronin Sergey", "Main-Class": mainClassName)
     }
 }
 
