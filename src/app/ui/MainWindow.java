@@ -81,8 +81,7 @@ public class MainWindow extends JFrame {
            public void run() {
                final ProcessingThread processing = processingPool.getFreeThread();
                if (processing != null) {
-                   processing.setProcessingValue(bufferReader.pullValue());
-                   processing.start();
+                   processing.start(bufferReader.pullValue());
                } else {
                    System.out.println("No free threads");
                }

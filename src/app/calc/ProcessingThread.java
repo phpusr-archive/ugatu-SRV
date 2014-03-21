@@ -15,18 +15,28 @@ public class ProcessingThread extends Thread {
 
     /** Кол-во мс. для обработки значения */
     private static final int PROCESSING_MILLIS = 2000;
+
     /** № потока */
     private int number;
+
     /** Выражение для обработки */
     private BufferValue processingValue;
 
-    private boolean free = true;
+    /** Свободен ли поток, для повторного запуска */
+    private volatile Boolean free;
 
+    /** Выполнил ли обработку поток */
+    private volatile Boolean completeProcessing;
+
+    /** Конструктор */
     public ProcessingThread(int number, BufferValue bufferValue) {
+        free = true;
+        completeProcessing = true;
         this.number = number;
         processingValue = bufferValue;
     }
 
+    /** Конструктор */
     public ProcessingThread(int number) {
         this(number, null);
     }
@@ -35,21 +45,50 @@ public class ProcessingThread extends Thread {
     public void run() {
         while(!isInterrupted()) {
             try {
-                sleep(PROCESSING_MILLIS);
-                System.out.println(this + " finish processing value " + processingValue);
-                yield();
+                //Засыпание потока, пока не появится новая задача
+                while (completeProcessing) sleep(100);
+
+                //Выполнение задачи потока
+                doTask();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            //Установка флага завершения потока
+            completeProcessing = true;
+
+            //Освобождение потока
+            synchronized (free) {free = true;}
         }
     }
 
-    public void setProcessingValue(BufferValue processingValue) {
+    /**  Выполнение задачи потока */
+    private void doTask() throws InterruptedException {
+        sleep(PROCESSING_MILLIS);
+        System.out.println(this + " finish processing value " + processingValue);
+    }
+
+    /** Заглушка от не правильного вызова */
+    @Override
+    public synchronized void start() {
+        System.out.println("Call start(BufferValue processingValue)");
+    }
+
+    /** Запуск потока */
+    public synchronized void start(BufferValue processingValue) {
         this.processingValue = processingValue;
+        free = false;
+        completeProcessing = false;
+    }
+
+    /** Проверка, свободен-ли поток */
+    public boolean isFree() {
+        synchronized (free) { return free; }
     }
 
     @Override
     public String toString() {
         return "ProcessingThread: " + number;
     }
+
 }

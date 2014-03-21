@@ -20,7 +20,9 @@ public class ThreadPool {
     public ThreadPool(int poolSize) {
         threadList = new ArrayList<ProcessingThread>();
         for (int i=0; i< poolSize; i++) {
-            threadList.add(new ProcessingThread(i+1));
+            ProcessingThread thread = new ProcessingThread(i + 1);
+            threadList.add(thread);
+            thread.start();
         }
     }
 
@@ -28,11 +30,11 @@ public class ThreadPool {
     public ProcessingThread getFreeThread() {
         System.out.println(">> getFreeThread()");
         for (ProcessingThread processingThread : threadList) {
-            if (!processingThread.isAlive()) {
-                System.out.println(processingThread + " NOT alive");
+            if (processingThread.isFree()) {
+                System.out.println(processingThread + " free");
                 return processingThread;
             } else {
-                System.out.println(processingThread + " alive");
+                System.out.println(processingThread + " NOT free");
             }
         }
 
