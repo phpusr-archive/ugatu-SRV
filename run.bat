@@ -1,10 +1,2 @@
-@echo off
-
-set CUR_PRJ="%cd%"
-cd ..\..\..\scripts
-call env.bat
-cd /d "%CUR_PRJ%"
-
-call gradle run
-
+java -jar out\libs\Producer-Consumer.jar
 pause
