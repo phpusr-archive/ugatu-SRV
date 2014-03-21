@@ -7,6 +7,7 @@ package app.calc;
  */
 
 import app.buffer.BufferValue;
+import experiment.ProcessingListener;
 
 /**
  * Поток для обработки значений из буфера
@@ -27,6 +28,8 @@ public class ProcessingThread extends Thread {
 
     /** Выполнил ли обработку поток */
     private volatile Boolean completeProcessing;
+
+    private ProcessingListener processingListener;
 
     /** Конструктор */
     public ProcessingThread(int number, BufferValue bufferValue) {
@@ -66,11 +69,16 @@ public class ProcessingThread extends Thread {
     private void doTask() throws InterruptedException {
         sleep(PROCESSING_MILLIS);
         System.out.println(this + " finish processing value " + processingValue);
+
+        //Передача значения выполнения слушателю
+        processingListener.processingDone(processingValue.getStringValue());
     }
 
     /** Запуск потока */
-    public synchronized void start(BufferValue processingValue) {
+    public synchronized void start(BufferValue processingValue, ProcessingListener processingListener) {
         this.processingValue = processingValue;
+        this.processingListener = processingListener;
+
         free = false;
         completeProcessing = false;
     }

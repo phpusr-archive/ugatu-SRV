@@ -22,15 +22,15 @@ public class BufferReader extends Thread {
     /** Буфер для хранения нескольких сообщений */
     private final List<BufferValue> bufferValueList;
 
-    /** Экшн, для буфера */
-    private Runnable bufferAction;
+    /** Слушатель для буфера */
+    private Runnable bufferListener;
 
     public BufferReader() {
         bufferValueList = new ArrayList<BufferValue>();
-        bufferAction = new Runnable() {
+        bufferListener = new Runnable() {
             @Override
             public void run() {
-                System.out.println("bufferAction initialize");
+                System.out.println("bufferListener initialize");
             }
         };
     }
@@ -65,11 +65,11 @@ public class BufferReader extends Thread {
         }
     }
 
-    /** Запуск экшэна для буфера */
+    /** Запуск экшэна для буфера (Сообщает о том, что появилось новое сообщение в буфере) */
     private synchronized void runAction() {
-        synchronized (bufferAction) {
-            if (bufferAction != null && bufferValueList.size() > 0) {
-                bufferAction.run();
+        synchronized (bufferListener) {
+            if (bufferListener != null && bufferValueList.size() > 0) {
+                bufferListener.run();
             }
         }
     }
@@ -83,10 +83,10 @@ public class BufferReader extends Thread {
         }
     }
 
-    /** Установка экшена появления сообщений в буфере BufferReader'а */
-    public void setBufferAction(Runnable runnable) {
-        synchronized (bufferAction) {
-            bufferAction = runnable;
+    /** Установка слушателя появления сообщений в буфере BufferReader'а */
+    public void setBufferListener(Runnable runnable) {
+        synchronized (bufferListener) {
+            bufferListener = runnable;
         }
     }
 

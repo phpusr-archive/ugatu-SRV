@@ -5,6 +5,7 @@ import app.buffer.BufferValue;
 import app.buffer.BufferWriter;
 import app.calc.ProcessingThread;
 import app.calc.ThreadPool;
+import experiment.ProcessingListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +66,7 @@ public class MainWindow extends JFrame {
 
     /** Инициализация экшенов */
     private void initActions() {
-        //Экшэн нажатия на кнопку, записывает сообщение в буфер
+        //Слушатель нажатия на кнопку, записывает сообщение в буфер
         messagePusherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,26 +76,29 @@ public class MainWindow extends JFrame {
             }
         });
 
-       //Экшен появления сообщений в буфере BufferReader'а
-       bufferReader.setBufferAction(new Runnable() {
+        //Слушатель завершения обработки потока
+        final ProcessingListener processingListener = new ProcessingListener() {
+            @Override
+            public synchronized void processingDone(String value) {
+                if (value != null) {
+                    bufferMessagesLabel.setText(bufferMessagesLabel.getText() + value + " ");
+                }
+            }
+        };
+
+       //Слушатель появления сообщений в буфере BufferReader'а
+       bufferReader.setBufferListener(new Runnable() {
            @Override
            public void run() {
                final ProcessingThread processing = processingPool.getFreeThread();
                if (processing != null) {
-                   processing.start(bufferReader.pullValue());
+                   processing.start(bufferReader.pullValue(), processingListener);
                } else {
                    System.out.println("No free threads");
                }
            }
        });
 
-    }
-
-    /** Добавляет новое значение к лейблу TODO */
-    private void addValueToLabel(String value) {
-        if (value != null) {
-            bufferMessagesLabel.setText(bufferMessagesLabel.getText() + value + " ");
-        }
     }
 
 }
