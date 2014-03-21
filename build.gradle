@@ -2,6 +2,7 @@ apply plugin: 'java'
 
 //---------------------------
 project.buildDir = 'out'
+sourceCompatibility = '1.6'
 def mainSrcDir = "${projectDir}/src"
 def mainClassName = 'app.main.Main'
 def manifestFile = "${mainSrcDir}/META-INF/MANIFEST.MF"
@@ -23,8 +24,6 @@ repositories {
 dependencies {
 
 }
-
-sourceCompatibility = "1.6" //TODO warning: [options] bootstrap class path not set in conjunction with -source 1.6
 
 compileJava {
     options.encoding = "UTF-8"
