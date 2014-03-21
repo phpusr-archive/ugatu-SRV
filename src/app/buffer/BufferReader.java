@@ -22,7 +22,7 @@ public class BufferReader extends Thread {
     /** Буфер для хранения нескольких сообщений */
     private final List<BufferValue> bufferValueList;
 
-    /** TODO */
+    /** Экшн, для буфера */
     private Runnable bufferAction;
 
     public BufferReader() {
@@ -37,28 +37,36 @@ public class BufferReader extends Thread {
 
     @Override
     public void run() {
-        //Таймер запускется каждые 100 мс
-        Timer timer = new Timer(100, new ActionListener() {
+        //Таймер проверки буфера (запускется каждые 100мс)
+        new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkBuffer();
             }
-        });
-        timer.start();
+        }).start();
+        //Таймер запуска экшэна буфера (запускается каждую 1с)
+        new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                runAction();
+            }
+        }).start();
     }
 
-    /** Вытаскивает значение буфера и помещает в список */
+    /** Вытаскивает значение из внешнего буфера и помещает во внутренний */
     private void checkBuffer() {
         BufferValue bufferValue = Buffer.pullValue();
         if (bufferValue != null) {
             if (Const.LOG_BUFFER_READER) System.out.println("BufferedReader:: found new value = " + bufferValue);
             bufferValueList.add(bufferValue);
+
+            //Запуск экшэна буфера
             runAction();
         }
     }
 
-    /** TODO */
-    private void runAction() {
+    /** Запуск экшэна для буфера */
+    private synchronized void runAction() {
         synchronized (bufferAction) {
             if (bufferAction != null && bufferValueList.size() > 0) {
                 bufferAction.run();
