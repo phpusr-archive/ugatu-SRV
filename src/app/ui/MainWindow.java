@@ -3,8 +3,8 @@ package app.ui;
 import app.buffer.BufferReader;
 import app.buffer.BufferValue;
 import app.buffer.BufferWriter;
-import app.calc.ProcessingThread;
-import app.calc.ThreadPool;
+import app.proce.ProcessingThread;
+import app.proce.ThreadPool;
 import experiment.ProcessingListener;
 
 import javax.swing.*;
