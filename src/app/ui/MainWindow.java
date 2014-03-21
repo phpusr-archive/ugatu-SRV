@@ -3,9 +3,9 @@ package app.ui;
 import app.buffer.BufferReader;
 import app.buffer.BufferValue;
 import app.buffer.BufferWriter;
+import app.proce.ProcessingListener;
 import app.proce.ProcessingThread;
 import app.proce.ThreadPool;
-import experiment.ProcessingListener;
 
 import javax.swing.*;
 import java.awt.*;

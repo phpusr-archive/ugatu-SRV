@@ -7,7 +7,6 @@ package app.proce;
  */
 
 import app.buffer.BufferValue;
-import experiment.ProcessingListener;
 
 /**
  * Поток для обработки значений из буфера
