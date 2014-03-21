@@ -33,7 +33,6 @@ public class BufferReader extends Thread {
                 System.out.println("bufferAction initialize");
             }
         };
-
     }
 
     @Override

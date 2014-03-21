@@ -58,7 +58,7 @@ public class ProcessingThread extends Thread {
             completeProcessing = true;
 
             //Освобождение потока
-            synchronized (free) {free = true;}
+            synchronized (free) { free = true; }
         }
     }
 
@@ -66,12 +66,6 @@ public class ProcessingThread extends Thread {
     private void doTask() throws InterruptedException {
         sleep(PROCESSING_MILLIS);
         System.out.println(this + " finish processing value " + processingValue);
-    }
-
-    /** Заглушка от не правильного вызова */
-    @Override
-    public synchronized void start() {
-        System.out.println("Call start(BufferValue processingValue)");
     }
 
     /** Запуск потока */
