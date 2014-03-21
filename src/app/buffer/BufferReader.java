@@ -30,7 +30,7 @@ public class BufferReader extends Thread {
         bufferListener = new Runnable() {
             @Override
             public void run() {
-                System.out.println("bufferListener initialize");
+                System.out.println("bufferListener initialize. View this message is NOT normal!!!");
             }
         };
     }

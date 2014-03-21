@@ -6,6 +6,8 @@ package app.proce;
  *         Time: 11:04
  */
 
+import app.main.Const;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +30,13 @@ public class ThreadPool {
 
     /** Возвращает незанятый поток из пула потоков */
     public ProcessingThread getFreeThread() {
-        System.out.println(">> getFreeThread()");
+        if (Const.LOG_THREAD_POOL) System.out.println(">>getFreeThread()");
         for (ProcessingThread processingThread : threadList) {
             if (processingThread.isFree()) {
-                System.out.println(processingThread + " free");
+                if (Const.LOG_THREAD_POOL) System.out.println(processingThread + " FREE!");
                 return processingThread;
             } else {
-                System.out.println(processingThread + " NOT free");
+                if (Const.LOG_THREAD_POOL) System.out.println(processingThread + " busy");
             }
         }
 

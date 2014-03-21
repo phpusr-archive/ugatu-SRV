@@ -17,4 +17,10 @@ public class Const {
 
     public static final boolean LOG_BUFFER_WRITER = false;
 
+    public static final boolean LOG_MAIN_WINDOW = true;
+
+    public static final boolean LOG_PROCESSING = true;
+
+    public static final boolean LOG_THREAD_POOL = true;
+
 }

@@ -7,6 +7,7 @@ package app.proce;
  */
 
 import app.buffer.BufferValue;
+import app.main.Const;
 
 /**
  * Поток для обработки значений из буфера
@@ -67,7 +68,7 @@ public class ProcessingThread extends Thread {
     /**  Выполнение задачи потока */
     private void doTask() throws InterruptedException {
         sleep(PROCESSING_MILLIS);
-        System.out.println(this + " finish processing value " + processingValue);
+        if (Const.LOG_PROCESSING) System.out.println(this + " finish! Processing value: " + processingValue);
 
         //Передача значения выполнения слушателю
         processingListener.processingDone(processingValue.getStringValue());

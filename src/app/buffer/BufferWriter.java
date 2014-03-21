@@ -32,7 +32,7 @@ public class BufferWriter {
 
     /** Пишет в буфер значение: writeValue */
     public void run() {
-        System.out.println("--------------------------------");
+        System.out.println("-------------------------------->>");
         if (Const.LOG_BUFFER_WRITER) System.out.println("BufferWriter:: write value = " + writeValue);
         Buffer.pushValue(writeValue);
     }
