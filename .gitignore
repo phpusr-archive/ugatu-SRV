@@ -2,3 +2,5 @@
 /out
 /*.iml
 /doc/dop
+/build
+/.gradle
