@@ -20,18 +20,36 @@ public class ProcessingThread extends Thread {
     /** Выражение для обработки */
     private BufferValue processingValue;
 
+    private boolean free = true;
+
     public ProcessingThread(int number, BufferValue bufferValue) {
         this.number = number;
         processingValue = bufferValue;
     }
 
+    public ProcessingThread(int number) {
+        this(number, null);
+    }
+
     @Override
     public void run() {
-        try {
-            sleep(PROCESSING_MILLIS);
-            System.out.println("Thread: " + number + " finish processing value " + processingValue);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while(!isInterrupted()) {
+            try {
+                sleep(PROCESSING_MILLIS);
+                System.out.println(this + " finish processing value " + processingValue);
+                yield();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    public void setProcessingValue(BufferValue processingValue) {
+        this.processingValue = processingValue;
+    }
+
+    @Override
+    public String toString() {
+        return "ProcessingThread: " + number;
     }
 }

@@ -3,6 +3,8 @@ package app.ui;
 import app.buffer.BufferReader;
 import app.buffer.BufferValue;
 import app.buffer.BufferWriter;
+import app.calc.ProcessingThread;
+import app.calc.ThreadPool;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +31,9 @@ public class MainWindow extends JFrame {
     /** Считыватель буфера */
     private final BufferReader bufferReader;
 
+    /** Пул потоков обработчиков сообщений */
+    private final ThreadPool processingPool;
+
     public MainWindow() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,6 +52,9 @@ public class MainWindow extends JFrame {
         //Считыватель буфера
         bufferReader = new BufferReader();
         bufferReader.start();
+
+        //Пул потоков обработчиков сообщений
+        processingPool = new ThreadPool(4);
 
         //Инициализация экшенов
         initActions();
@@ -67,23 +75,23 @@ public class MainWindow extends JFrame {
             }
         });
 
-        //Таймер обрабатывающий сообщения из буфера
-        final Timer timer = new Timer(2000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addValueToLabel(bufferReader.pullValue());
-            }
-        });
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                timer.start();
-            }
-        });
-        thread.start();
+       //Экшен появления сообщений в буфере BufferReader'а
+       bufferReader.setBufferAction(new Runnable() {
+           @Override
+           public void run() {
+               final ProcessingThread processing = processingPool.getFreeThread();
+               if (processing != null) {
+                   processing.setProcessingValue(bufferReader.pullValue());
+                   processing.start();
+               } else {
+                   System.out.println("No free threads");
+               }
+           }
+       });
+
     }
 
-    /** Добавляет новое значение к лейблу */
+    /** Добавляет новое значение к лейблу TODO */
     private void addValueToLabel(String value) {
         if (value != null) {
             bufferMessagesLabel.setText(bufferMessagesLabel.getText() + value + " ");
