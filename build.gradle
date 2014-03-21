@@ -17,6 +17,12 @@ dependencies {
 
 }
 
+sourceCompatibility = "1.6" //TODO warning: [options] bootstrap class path not set in conjunction with -source 1.6
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
 def mainClassName = 'app.main.Main'
 
 jar {
@@ -24,8 +30,6 @@ jar {
         attributes("Author": "Doronin Sergey", "Main-Class": mainClassName)
     }
 }
-
-sourceCompatibility = "1.6"
 
 // --offline
 task run(type: JavaExec, dependsOn: classes) {
