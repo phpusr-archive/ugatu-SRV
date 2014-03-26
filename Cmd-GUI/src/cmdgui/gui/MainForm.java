@@ -35,7 +35,7 @@ public class MainForm extends JFrame {
 
     /** Конструктор */
     public MainForm() {
-        super("Main Form");
+        super("Program Runner");
         if (false) System.out.println(">> constructor");
 
         setContentPane(rootPanel);
