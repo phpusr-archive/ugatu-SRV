@@ -42,7 +42,7 @@ public class MainForm extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(600, 400);
 
-        // Actions
+        // Добавление обработчиков событий
         addActions();
 
         setVisible(true);
