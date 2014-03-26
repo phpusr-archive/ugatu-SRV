@@ -5,7 +5,10 @@ import cmdgui.prgrunner.ProgramRunner;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,57 +17,82 @@ import java.util.List;
  *         Date: 26.03.14
  *         Time: 13:49
  */
+
+/**
+ * Главная форма
+ */
 public class MainForm extends JFrame {
-    private JPanel panel1;
+    /** Корневая панель */
+    private JPanel rootPanel;
+    /** Компонент для вывода списка */
     private JList outList;
+    /** Модель для вывода списка */
+    private DefaultListModel outListModel;
+    /** Поле для ввода команды */
     private JTextField cmdLine;
+    /** Кнопка запуска команды */
     private JButton runButton;
 
+    /** Конструктор */
     public MainForm() {
         super("Main Form");
+        if (false) System.out.println(">> constructor");
 
-        setContentPane(panel1);
+        setContentPane(rootPanel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //pack();
         setSize(600, 400);
 
-        // Actions...
+        // Actions
         addActions();
 
         setVisible(true);
     }
 
-    // Обработчики событий
+    /** Добавление обработчиков событий */
     void addActions() {
+        // Обработчик нажатия кнопки запуска команды
         runButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String program = cmdLine.getText();
-                String[] strings = program.split(" ");
-                List<String> list = new LinkedList<String>(Arrays.asList(strings));
+                // Извлечение введенных команд
+                String cmdLineString = cmdLine.getText();
+                String[] strings = cmdLineString.split(" ");
+                List<String> commandList = new LinkedList<String>(Arrays.asList(strings));
 
-                String prg = list.remove(0);
-                ProgramRunner programRunner = new ProgramRunner(prg, list);
+                // Запуск команды
+                String programName = commandList.remove(0);
+                ProgramRunner programRunner = new ProgramRunner(programName, commandList);
                 programRunner.run();
+
+                // Добавление разделителя
+                addSeparator();
+
+                // Получение вывода программы
                 List<String> outStringList = programRunner.getOutStringList();
 
-                DefaultListModel model = (DefaultListModel) outList.getModel();
-                model.clear();
-
+                // Отображение вывода программы
                 for (String out : outStringList) {
-                    model.addElement(out);
+                    outListModel.addElement(out);
                 }
-
-                // TODO допилить
             }
         });
     }
 
-    // Ручное создание компонентов
-    private void createUIComponents() {
-        System.out.println(">> createUIComponents");
+    /** Добавление разделителя в вывод */
+    private void addSeparator() {
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy a h:mm");
+        outListModel.addElement("-");
+        String separator = "-----------------------------------";
+        outListModel.addElement(separator + df.format(new Date()) + separator);
+        outListModel.addElement("-");
+    }
 
-        DefaultListModel listModel = new DefaultListModel();
-        outList = new JList(listModel);
+    /** Ручное создание компонентов */
+    private void createUIComponents() {
+        if (false) System.out.println(">> createUIComponents");
+
+        // Установка модели для компонента вывода списка
+        outListModel = new DefaultListModel();
+        outList = new JList(outListModel);
     }
 }
