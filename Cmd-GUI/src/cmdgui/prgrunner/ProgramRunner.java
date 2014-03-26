@@ -30,6 +30,7 @@ public class ProgramRunner implements Runnable {
     /** Список строк вывода */
     private final List<String> outStringList;
 
+    /** Конструктор */
     public ProgramRunner(String programName, List<String> args) {
         this.programName = programName;
         this.args = args;
@@ -41,6 +42,8 @@ public class ProgramRunner implements Runnable {
         outStringList = new ArrayList<String>();
     }
 
+
+    /** Запускатор программы */
     @Override
     public void run() {
         try {
@@ -48,10 +51,10 @@ public class ProgramRunner implements Runnable {
             InputStream is = process.getInputStream();
             InputStreamReader isr = new InputStreamReader(is, "866");
             BufferedReader br = new BufferedReader(isr);
+
+            System.out.printf("Command: %s\n", command);
+
             String line;
-
-            System.out.printf("Output of running %s is:", command);
-
             while ((line = br.readLine()) != null) {
                 outStringList.add(line);
             }
@@ -60,6 +63,17 @@ public class ProgramRunner implements Runnable {
         }
     }
 
+    /** Возвращает имя запускаемой программы */
+    public String getProgramName() {
+        return programName;
+    }
+
+    /** Возвращает аргументы запускаемой программы */
+    public List<String> getArgs() {
+        return args;
+    }
+
+    /** Возвращает вывод запускаемой программы */
     public List<String> getOutStringList() {
         return outStringList;
     }
