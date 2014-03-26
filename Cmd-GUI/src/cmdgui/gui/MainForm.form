@@ -8,14 +8,6 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="1beeb" class="javax.swing.JList" binding="outList" custom-create="true">
-        <constraints>
-          <grid row="0" column="3" row-span="5" col-span="1" vsize-policy="6" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-        </constraints>
-        <properties/>
-      </component>
       <component id="1dee9" class="javax.swing.JTextField" binding="cmdLine">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
@@ -23,6 +15,7 @@
           </grid>
         </constraints>
         <properties>
+          <font name="Tahoma"/>
           <text value="cmd /c dir"/>
         </properties>
       </component>
@@ -41,7 +34,8 @@
           <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Line to run:"/>
+          <font size="12" style="1"/>
+          <text value="Command line to run:"/>
         </properties>
       </component>
       <vspacer id="6524a">
@@ -54,6 +48,19 @@
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
+      <scrollpane id="55c36">
+        <constraints>
+          <grid row="0" column="3" row-span="5" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="1beeb" class="javax.swing.JList" binding="outList" custom-create="true">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>
