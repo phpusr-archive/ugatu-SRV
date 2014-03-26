@@ -1,0 +1,114 @@
+apply plugin: 'java'
+
+//---------------------------
+//project.buildDir = 'out'
+sourceCompatibility = '1.6'
+targetCompatibility = '1.6'
+def mainClassName = 'cmdgui.run.Main'
+
+def mainSrcDir = "${projectDir}/src/java"
+def resourcesDir = "${projectDir}/src/resources"
+def manifestFile = "${mainSrcDir}/META-INF/MANIFEST.MF"
+def jarDir = "${projectDir}/release"
+
+
+//---------------------------
+
+configurations {
+    javac2
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
+repositories {
+    ivy {
+        artifactPattern "http://www.nurflugel.com/Home/repository/[organisation]/[module]/[revision]/[artifact]-[revision].[type]"
+        ivyPattern      "http://www.nurflugel.com/Home/repository/[organisation]/[module]/[revision]/[artifact]-[revision].ivy.xml"
+    }
+}
+
+dependencies {
+    def libraryVersions = [
+            forms_rt:       '11.0.3',
+            intellij:       '11.0.3',
+            javac2asm:      '3.3.1',
+            jdom:           '1.0'
+    ]
+
+    javac2 'com.intellij:javac2:'+                   libraryVersions.intellij,
+            'com.intellij:annotations:'+              libraryVersions.intellij,
+            'asm:asm-commons:'+                       libraryVersions.javac2asm,
+            'asm:asm-parent:'+                        libraryVersions.javac2asm,
+            'org.jdom:jdom:'+                         libraryVersions.jdom
+
+    runtime 'com.intellij:forms_rt:'+              libraryVersions.forms_rt
+}
+
+jar {
+    manifest {        
+        attributes("Author": "Doronin Sergey", "Main-Class": mainClassName)
+    }
+
+    println '>>Runtime Classpath:'
+    configurations.runtime.asPath.tokenize(';').each { jarFile ->
+        println "\t${jarFile}"
+        from zipTree(jarFile)
+    }
+
+    destinationDir file(jarDir)
+}
+
+// --offline
+task run(type: JavaExec, dependsOn: classes) {
+    main = mainClassName
+	args = []
+    classpath sourceSets.main.runtimeClasspath
+    //classpath configurations.runtime // Не обязательно
+}
+
+task compileJava (overwrite: true)  {
+
+    theDir = file("${project.buildDir.path}/classes/main")
+    //make any source dirs needed for the output
+    theDir.mkdirs()
+
+    mainSrcDir = "${projectDir}/src/main/java"
+    destDir = "${projectDir}/build/classes/main"
+    javaSoureCompatibility = sourceCompatibility
+    javaTargetCompatibility = targetCompatibility
+    optimize = "off"
+    deprecation = "off"
+    includeAntRuntime = false
+    javaDeprecation = deprecation
+    debugLevel = "lines,vars,source"
+    debug = "on"
+    classpath = configurations.compile.asPath
+
+    compileJavac2(mainSrcDir, classpath, destDir, debug, debugLevel, javaDeprecation, includeAntRuntime, optimize, javaSoureCompatibility, javaTargetCompatibility)
+}
+
+private void compileJavac2(mainSrcDir, classpath, destDir, debug, debugLevel, deprecation, includeAntRuntime, optimize, sourceCompatibility, targetCompatibility) {
+    ant {
+        taskdef(name: 'javac2',
+                classname: 'com.intellij.ant.Javac2',
+                classpath: configurations.javac2.asPath)
+
+        javac2(srcdir: mainSrcDir,
+                classpath: classpath,
+                destdir: destDir,
+                debug: debug,
+                debugLevel: debugLevel,
+                deprecation: deprecation,
+                includeAntRuntime: includeAntRuntime,
+                optimize: optimize,
+                source: sourceCompatibility,
+                target: targetCompatibility
+        )
+    }
+}
