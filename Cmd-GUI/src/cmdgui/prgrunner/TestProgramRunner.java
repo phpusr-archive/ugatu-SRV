@@ -11,6 +11,8 @@ import java.util.List;
 
 /**
  * Тесты для ProgramRunner
+ * Опция компилятору для assert: -ea
+ * TODO переделать на тест
  */
 public class TestProgramRunner {
 
@@ -20,10 +22,9 @@ public class TestProgramRunner {
 
     /** Проверка запуска программы */
     static void testRun() {
-        String program = "cmd";
+        String program = "git";
         List<String> params = new ArrayList<String>() {{
-            add("/c");
-            add("dir");
+            add("--version");
         }};
 
         ProgramRunner programRunner = new ProgramRunner(program, params);
@@ -33,6 +34,8 @@ public class TestProgramRunner {
         for (String out : outStringList) {
             System.out.println(out);
         }
+
+        assert outStringList.get(0).equals("git version 1.8.4.msysgit.0");
     }
 
 }
