@@ -1,32 +1,30 @@
-apply plugin: 'java'
+apply plugin:'java'
 
-//---------------------------
+/**
+ * Сборщик: Groovy, Java, Idea forms (Extract need jar's)
+ */
+
+/**=================================*/
+//archivesBaseName = 'FerryWork'
+//version = ''
+//group = 'com.phpusr.ferrywork'
 //project.buildDir = 'out'
+
 sourceCompatibility = '1.6'
 targetCompatibility = '1.6'
 def mainClassName = 'cmdgui.run.Main'
-
-def mainSrcDir = "${projectDir}/src/java"
-def resourcesDir = "${projectDir}/src/resources"
+def mainSrcDir = "${projectDir}/src/main"
+//def resourcesDir = "${projectDir}/src/resources"
 def manifestFile = "${mainSrcDir}/META-INF/MANIFEST.MF"
-def jarDir = "${projectDir}/release"
-
-
-//---------------------------
+//def jarDir = "${projectDir}/release"
+/**=================================*/
 
 configurations {
     javac2
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src'
-        }
-    }
-}
-
 repositories {
+    mavenCentral()
     ivy {
         artifactPattern "http://www.nurflugel.com/Home/repository/[organisation]/[module]/[revision]/[artifact]-[revision].[type]"
         ivyPattern      "http://www.nurflugel.com/Home/repository/[organisation]/[module]/[revision]/[artifact]-[revision].ivy.xml"
@@ -48,49 +46,54 @@ dependencies {
             'org.jdom:jdom:'+                         libraryVersions.jdom
 
     runtime 'com.intellij:forms_rt:'+              libraryVersions.forms_rt
+    testCompile "junit:junit:4.11"
+}
+
+
+sourceSets {
+    main {
+        java { srcDirs = [] }
+        resources {
+            //srcDir resourcesDir
+        }
+    }
 }
 
 jar {
-    manifest {        
-        attributes("Author": "Doronin Sergey", "Main-Class": mainClassName)
+    manifest {
+        from manifestFile
+        /*attributes(
+            'Class-Path': "groovy-all-${groovyVer}.jar forms_rt.jar",
+            'Main-Class': 'test.MainJava'
+        )*/
     }
 
-    println '>>Runtime Classpath:'
+    def printRuntimaCP = true
+    if (printRuntimaCP) println '>>Runtime Classpath:'
     configurations.runtime.asPath.tokenize(';').each { jarFile ->
-        println "\t${jarFile}"
+        if (printRuntimaCP) println "\t${jarFile}"
         from zipTree(jarFile)
     }
 
-    destinationDir file(jarDir)
+    //destinationDir file(jarDir)
 }
 
-// --offline
-task run(type: JavaExec, dependsOn: classes) {
-    main = mainClassName
-	args = []
-    classpath sourceSets.main.runtimeClasspath
-    //classpath configurations.runtime // Не обязательно
-}
+task compileJava(overwrite: true) {
 
-task compileJava (overwrite: true)  {
-
-    theDir = file("${project.buildDir.path}/classes/main")
+    def theDir = file("${project.buildDir.path}/classes/main")
     //make any source dirs needed for the output
     theDir.mkdirs()
 
-    mainSrcDir = "${projectDir}/src/main/java"
-    destDir = "${projectDir}/build/classes/main"
-    javaSoureCompatibility = sourceCompatibility
-    javaTargetCompatibility = targetCompatibility
-    optimize = "off"
-    deprecation = "off"
-    includeAntRuntime = false
-    javaDeprecation = deprecation
-    debugLevel = "lines,vars,source"
-    debug = "on"
-    classpath = configurations.compile.asPath
+    def destDir = "${project.buildDir.path}/classes/main"
+    def optimize = 'off'
+    def deprecation = 'off'
+    def includeAntRuntime = true
+    def javaDeprecation = deprecation
+    def debugLevel = 'lines,vars,source'
+    def debug = 'on'
+    def classpath = configurations.compile.asPath
 
-    compileJavac2(mainSrcDir, classpath, destDir, debug, debugLevel, javaDeprecation, includeAntRuntime, optimize, javaSoureCompatibility, javaTargetCompatibility)
+    compileJavac2(mainSrcDir, classpath, destDir, debug, debugLevel, javaDeprecation, includeAntRuntime, optimize, sourceCompatibility, targetCompatibility)
 }
 
 private void compileJavac2(mainSrcDir, classpath, destDir, debug, debugLevel, deprecation, includeAntRuntime, optimize, sourceCompatibility, targetCompatibility) {
@@ -108,7 +111,16 @@ private void compileJavac2(mainSrcDir, classpath, destDir, debug, debugLevel, de
                 includeAntRuntime: includeAntRuntime,
                 optimize: optimize,
                 source: sourceCompatibility,
-                target: targetCompatibility
+                target: targetCompatibility,
+                encoding: 'UTF-8'
         )
     }
+}
+
+// --offline
+task run(type: JavaExec, dependsOn: classes) {
+    main = mainClassName
+    args = []
+    classpath sourceSets.main.runtimeClasspath
+    //classpath configurations.runtime // Не обязательно
 }
