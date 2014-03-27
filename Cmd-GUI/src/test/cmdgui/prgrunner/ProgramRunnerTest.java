@@ -1,33 +1,36 @@
 package cmdgui.prgrunner;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author phpusr
- *         Date: 26.03.14
- *         Time: 16:47
+ *         Date: 27.03.14
+ *         Time: 18:37
  */
 
 /**
  * Тесты для ProgramRunner
- * Опция компилятору для assert: -ea
- * TODO переделать на тест
  */
-public class TestProgramRunner {
+public class ProgramRunnerTest {
 
-    public static void main(String[] args) {
-        testRun();
-    }
+    ProgramRunner programRunner;
 
-    /** Проверка запуска программы */
-    static void testRun() {
+    @Before
+    public void setUp() {
         String program = "git";
         List<String> params = new ArrayList<String>() {{
             add("--version");
         }};
 
-        ProgramRunner programRunner = new ProgramRunner(program, params);
+        programRunner = new ProgramRunner(program, params);
+    }
+
+    @Test
+    public void testRun() {
         programRunner.run();
         List<String> outStringList = programRunner.getOutStringList();
 
