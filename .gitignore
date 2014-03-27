@@ -1,7 +1,13 @@
 .idea
-out
 *.iml
+
+out
+build
+
 /*/doc/dop
+/*.zip
+
 .gradle
+gradle
 gradlew
 gradlew.bat
