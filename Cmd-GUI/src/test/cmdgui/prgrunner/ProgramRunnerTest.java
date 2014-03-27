@@ -31,6 +31,8 @@ public class ProgramRunnerTest {
 
     @Test
     public void testRun() {
+        assert programRunner.getProgramName().equals("git");
+
         programRunner.run();
         List<String> outStringList = programRunner.getOutStringList();
 
