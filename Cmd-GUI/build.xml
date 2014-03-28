@@ -136,13 +136,13 @@
   
   <path id="cmd-gui.module.sourcepath">
     <dirset dir="${module.cmd-gui.basedir}">
-      <include name="src/main"/>
+      <include name="src/main/java"/>
     </dirset>
   </path>
   
   <path id="cmd-gui.module.test.sourcepath">
     <dirset dir="${module.cmd-gui.basedir}">
-      <include name="src/test"/>
+      <include name="src/test/java"/>
     </dirset>
   </path>
   
@@ -160,7 +160,7 @@
     </javac2>
     
     <copy todir="${cmd-gui.output.dir}">
-      <fileset dir="${module.cmd-gui.basedir}/src/main">
+      <fileset dir="${module.cmd-gui.basedir}/src/main/java">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
@@ -178,7 +178,7 @@
     </javac2>
     
     <copy todir="${cmd-gui.testoutput.dir}">
-      <fileset dir="${module.cmd-gui.basedir}/src/test">
+      <fileset dir="${module.cmd-gui.basedir}/src/test/java">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
