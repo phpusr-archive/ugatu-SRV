@@ -24,6 +24,7 @@ configurations {
 }
 
 repositories {
+    //flatDir dirs: "${rootDir}/lib"
     mavenCentral()
     ivy {
         artifactPattern "http://www.nurflugel.com/Home/repository/[organisation]/[module]/[revision]/[artifact]-[revision].[type]"
@@ -32,20 +33,11 @@ repositories {
 }
 
 dependencies {
-    def libraryVersions = [
-            forms_rt:       '11.0.3',
-            intellij:       '11.0.3',
-            javac2asm:      '3.3.1',
-            jdom:           '1.0'
-    ]
+    javac2 'com.intellij:javac2:11.0.3',
+            'asm:asm-all:3.3.1',
+            'org.jdom:jdom:1.1'
 
-    javac2 'com.intellij:javac2:'+                   libraryVersions.intellij,
-            'com.intellij:annotations:'+              libraryVersions.intellij,
-            'asm:asm-commons:'+                       libraryVersions.javac2asm,
-            'asm:asm-parent:'+                        libraryVersions.javac2asm,
-            'org.jdom:jdom:'+                         libraryVersions.jdom
-
-    runtime 'com.intellij:forms_rt:'+              libraryVersions.forms_rt
+    compile 'com.intellij:forms_rt:12.0'
     testCompile "junit:junit:4.11"
 }
 
@@ -98,9 +90,7 @@ task compileJava(overwrite: true) {
 
 private void compileJavac2(mainSrcDir, classpath, destDir, debug, debugLevel, deprecation, includeAntRuntime, optimize, sourceCompatibility, targetCompatibility) {
     ant {
-        taskdef(name: 'javac2',
-                classname: 'com.intellij.ant.Javac2',
-                classpath: configurations.javac2.asPath)
+        taskdef(name: 'javac2', classname: 'com.intellij.ant.Javac2', classpath: configurations.javac2.asPath)
 
         javac2(srcdir: mainSrcDir,
                 classpath: classpath,
