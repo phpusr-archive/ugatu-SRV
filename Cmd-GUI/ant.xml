@@ -56,37 +56,6 @@
     <exclude name="**/?*.clj"/>
   </patternset>
   
-  <!-- JDK definitions -->
-  
-  <property name="jdk.bin.1.7_(x64)" value="${jdk.home.1.7_(x64)}/bin"/>
-  <path id="jdk.classpath.1.7_(x64)">
-    <fileset dir="${jdk.home.1.7_(x64)}">
-      <include name="jre/lib/charsets.jar"/>
-      <include name="jre/lib/deploy.jar"/>
-      <include name="jre/lib/javaws.jar"/>
-      <include name="jre/lib/jce.jar"/>
-      <include name="jre/lib/jfr.jar"/>
-      <include name="jre/lib/jfxrt.jar"/>
-      <include name="jre/lib/jsse.jar"/>
-      <include name="jre/lib/management-agent.jar"/>
-      <include name="jre/lib/plugin.jar"/>
-      <include name="jre/lib/resources.jar"/>
-      <include name="jre/lib/rt.jar"/>
-      <include name="jre/lib/ext/access-bridge-64.jar"/>
-      <include name="jre/lib/ext/dnsns.jar"/>
-      <include name="jre/lib/ext/jaccess.jar"/>
-      <include name="jre/lib/ext/localedata.jar"/>
-      <include name="jre/lib/ext/sunec.jar"/>
-      <include name="jre/lib/ext/sunjce_provider.jar"/>
-      <include name="jre/lib/ext/sunmscapi.jar"/>
-      <include name="jre/lib/ext/zipfs.jar"/>
-    </fileset>
-  </path>
-  
-  <property name="project.jdk.home" value="${jdk.home.1.7_(x64)}"/>
-  <property name="project.jdk.bin" value="${jdk.bin.1.7_(x64)}"/>
-  <property name="project.jdk.classpath" value="jdk.classpath.1.7_(x64)"/>
-  
   
   <!-- Project Libraries -->
   
@@ -122,9 +91,6 @@
   <dirname property="module.cmd-gui.basedir" file="${ant.file}"/>
   
   
-  <property name="module.jdk.home.cmd-gui" value="${project.jdk.home}"/>
-  <property name="module.jdk.bin.cmd-gui" value="${project.jdk.bin}"/>
-  <property name="module.jdk.classpath.cmd-gui" value="${project.jdk.classpath}"/>
   
   <property name="compiler.args.cmd-gui" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
   
@@ -136,7 +102,6 @@
   </path>
   
   <path id="cmd-gui.module.production.classpath">
-    <path refid="${module.jdk.classpath.cmd-gui}"/>
     <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
     <path refid="library.lib.classpath"/>
   </path>
@@ -148,7 +113,6 @@
   </path>
   
   <path id="cmd-gui.module.classpath">
-    <path refid="${module.jdk.classpath.cmd-gui}"/>
     <pathelement location="${cmd-gui.output.dir}"/>
     <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
     <path refid="library.lib.classpath"/>
@@ -187,7 +151,7 @@
   
   <target name="compile.module.cmd-gui.production" depends="register.custom.compilers" description="Compile module Cmd-GUI; production classes">
     <mkdir dir="${cmd-gui.output.dir}"/>
-    <javac2 destdir="${cmd-gui.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.cmd-gui}/javac">
+    <javac2 destdir="${cmd-gui.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
       <compilerarg line="${compiler.args.cmd-gui}"/>
       <bootclasspath refid="cmd-gui.module.bootclasspath"/>
       <classpath refid="cmd-gui.module.production.classpath"/>
@@ -205,7 +169,7 @@
   
   <target name="compile.module.cmd-gui.tests" depends="register.custom.compilers,compile.module.cmd-gui.production" description="compile module Cmd-GUI; test classes" unless="skip.tests">
     <mkdir dir="${cmd-gui.testoutput.dir}"/>
-    <javac2 destdir="${cmd-gui.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.cmd-gui}/javac">
+    <javac2 destdir="${cmd-gui.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
       <compilerarg line="${compiler.args.cmd-gui}"/>
       <bootclasspath refid="cmd-gui.module.bootclasspath"/>
       <classpath refid="cmd-gui.module.classpath"/>
