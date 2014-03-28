@@ -10,10 +10,10 @@ apply plugin:'java'
 //group = 'com.phpusr.ferrywork'
 //project.buildDir = 'out'
 
-sourceCompatibility = '1.6'
-targetCompatibility = '1.6'
+//sourceCompatibility = '1.6'
+//targetCompatibility = '1.6'
 def mainClassName = 'cmdgui.run.Main'
-def mainSrcDir = "${projectDir}/src/main"
+def mainSrcDir = "${projectDir}/src/main/java"
 //def resourcesDir = "${projectDir}/src/resources"
 def manifestFile = "${mainSrcDir}/META-INF/MANIFEST.MF"
 //def jarDir = "${projectDir}/release"
@@ -24,8 +24,9 @@ configurations {
 }
 
 repositories {
-    //flatDir dirs: "${rootDir}/lib"
+    //flatDir dirs: "${rootDir}/lib" //Локальные библиотеки
     mavenCentral()
+    // Репозиторий для Idea forms
     ivy {
         artifactPattern "http://www.nurflugel.com/Home/repository/[organisation]/[module]/[revision]/[artifact]-[revision].[type]"
         ivyPattern      "http://www.nurflugel.com/Home/repository/[organisation]/[module]/[revision]/[artifact]-[revision].ivy.xml"
@@ -61,7 +62,7 @@ jar {
     }
 
     def printRuntimaCP = true
-    if (printRuntimaCP) println '>>Runtime Classpath:'
+    if (printRuntimaCP) println '>> Runtime Classpath:'
     configurations.runtime.asPath.tokenize(';').each { jarFile ->
         if (printRuntimaCP) println "\t${jarFile}"
         from zipTree(jarFile)
