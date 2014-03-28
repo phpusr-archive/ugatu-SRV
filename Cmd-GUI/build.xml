@@ -57,15 +57,6 @@
   </patternset>
   
   
-  <!-- Project Libraries -->
-  
-  <path id="library.lib.classpath">
-    <fileset dir="${basedir}/lib">
-      <patternset refid="library.patterns"/>
-    </fileset>
-  </path>
-  
-  
   <!-- Global Libraries -->
   
   
@@ -102,29 +93,23 @@
   </path>
   
   <path id="cmd-gui.module.production.classpath">
-    <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
-    <path refid="library.lib.classpath"/>
     <!-- !!! Fix compile -->
     <pathelement location="${idea.home}/lib/forms_rt.jar"/>
   </path>
-  
+
   <path id="cmd-gui.runtime.production.module.classpath">
     <pathelement location="${cmd-gui.output.dir}"/>
-    <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
-    <path refid="library.lib.classpath"/>
   </path>
   
   <path id="cmd-gui.module.classpath">
     <pathelement location="${cmd-gui.output.dir}"/>
     <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
-    <path refid="library.lib.classpath"/>
   </path>
   
   <path id="cmd-gui.runtime.module.classpath">
     <pathelement location="${cmd-gui.testoutput.dir}"/>
     <pathelement location="${cmd-gui.output.dir}"/>
     <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
-    <path refid="library.lib.classpath"/>
   </path>
   
   
@@ -212,6 +197,7 @@
     <mkdir dir="${artifact.temp.output.cmd-gui:jar}"/>
     <jar destfile="${temp.jar.path.Cmd-GUI.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
       <zipfileset dir="${cmd-gui.output.dir}"/>
+      <!-- !!! Fix jar -->
       <zipgroupfileset file="${javac2.home}/forms_rt.jar"/>
     </jar>
     <copy file="${temp.jar.path.Cmd-GUI.jar}" tofile="${artifact.temp.output.cmd-gui:jar}/Cmd-GUI.jar"/>
