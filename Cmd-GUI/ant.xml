@@ -71,7 +71,7 @@
   
   <!-- Application Server Libraries -->
   <!-- Register Custom Compiler Taskdefs -->
-  <property name="javac2.home" value="${idea.home}/lib"/>
+  <property name="javac2.home" value="${basedir}/lib"/>
   <path id="javac2.classpath">
     <pathelement location="${javac2.home}/javac2.jar"/>
     <pathelement location="${javac2.home}/jdom.jar"/>
@@ -210,6 +210,7 @@
     <mkdir dir="${artifact.temp.output.cmd-gui:jar}"/>
     <jar destfile="${temp.jar.path.Cmd-GUI.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
       <zipfileset dir="${cmd-gui.output.dir}"/>
+      <zipgroupfileset file="${javac2.home}/forms_rt.jar"/>
     </jar>
     <copy file="${temp.jar.path.Cmd-GUI.jar}" tofile="${artifact.temp.output.cmd-gui:jar}/Cmd-GUI.jar"/>
   </target>
