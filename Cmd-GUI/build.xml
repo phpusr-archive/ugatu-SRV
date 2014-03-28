@@ -104,6 +104,8 @@
   <path id="cmd-gui.module.production.classpath">
     <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
     <path refid="library.lib.classpath"/>
+    <!-- !!! Fix compile -->
+    <pathelement location="${idea.home}/lib/forms_rt.jar"/>
   </path>
   
   <path id="cmd-gui.runtime.production.module.classpath">
