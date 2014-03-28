@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cmd-gui" default="all">
+  
+  
+  <property file="ant.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/*.rbc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.ear"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.swc"/>
+    <include name="*.ane"/>
+    <include name="*.egg"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.7_(x64)" value="${jdk.home.1.7_(x64)}/bin"/>
+  <path id="jdk.classpath.1.7_(x64)">
+    <fileset dir="${jdk.home.1.7_(x64)}">
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/jfxrt.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="jre/lib/ext/access-bridge-64.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/jaccess.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/sunmscapi.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.7_(x64)}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.7_(x64)}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.7_(x64)"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.lib.classpath">
+    <fileset dir="${basedir}/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  
+  <!-- Global Libraries -->
+  
+  
+  <!-- Application Server Libraries -->
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm4-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module Cmd-GUI -->
+  
+  <dirname property="module.cmd-gui.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.cmd-gui" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.cmd-gui" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.cmd-gui" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.cmd-gui" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="cmd-gui.output.dir" value="${module.cmd-gui.basedir}/build/classes/production/Cmd-GUI"/>
+  <property name="cmd-gui.testoutput.dir" value="${module.cmd-gui.basedir}/build/classes/test/Cmd-GUI"/>
+  
+  <path id="cmd-gui.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="cmd-gui.module.production.classpath">
+    <path refid="${module.jdk.classpath.cmd-gui}"/>
+    <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="cmd-gui.runtime.production.module.classpath">
+    <pathelement location="${cmd-gui.output.dir}"/>
+    <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="cmd-gui.module.classpath">
+    <path refid="${module.jdk.classpath.cmd-gui}"/>
+    <pathelement location="${cmd-gui.output.dir}"/>
+    <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="cmd-gui.runtime.module.classpath">
+    <pathelement location="${cmd-gui.testoutput.dir}"/>
+    <pathelement location="${cmd-gui.output.dir}"/>
+    <pathelement location="${idea.home}/lib/junit-4.10.jar"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.cmd-gui">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.cmd-gui">
+    <patternset refid="excluded.from.module.cmd-gui"/>
+  </patternset>
+  
+  <path id="cmd-gui.module.sourcepath">
+    <dirset dir="${module.cmd-gui.basedir}">
+      <include name="src/main"/>
+    </dirset>
+  </path>
+  
+  <path id="cmd-gui.module.test.sourcepath">
+    <dirset dir="${module.cmd-gui.basedir}">
+      <include name="src/test"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.cmd-gui" depends="compile.module.cmd-gui.production,compile.module.cmd-gui.tests" description="Compile module Cmd-GUI"/>
+  
+  <target name="compile.module.cmd-gui.production" depends="register.custom.compilers" description="Compile module Cmd-GUI; production classes">
+    <mkdir dir="${cmd-gui.output.dir}"/>
+    <javac2 destdir="${cmd-gui.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.cmd-gui}/javac">
+      <compilerarg line="${compiler.args.cmd-gui}"/>
+      <bootclasspath refid="cmd-gui.module.bootclasspath"/>
+      <classpath refid="cmd-gui.module.production.classpath"/>
+      <src refid="cmd-gui.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.cmd-gui"/>
+    </javac2>
+    
+    <copy todir="${cmd-gui.output.dir}">
+      <fileset dir="${module.cmd-gui.basedir}/src/main">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.cmd-gui.tests" depends="register.custom.compilers,compile.module.cmd-gui.production" description="compile module Cmd-GUI; test classes" unless="skip.tests">
+    <mkdir dir="${cmd-gui.testoutput.dir}"/>
+    <javac2 destdir="${cmd-gui.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.cmd-gui}/javac">
+      <compilerarg line="${compiler.args.cmd-gui}"/>
+      <bootclasspath refid="cmd-gui.module.bootclasspath"/>
+      <classpath refid="cmd-gui.module.classpath"/>
+      <src refid="cmd-gui.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.cmd-gui"/>
+    </javac2>
+    
+    <copy todir="${cmd-gui.testoutput.dir}">
+      <fileset dir="${module.cmd-gui.basedir}/src/test">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.cmd-gui" description="cleanup module">
+    <delete dir="${cmd-gui.output.dir}"/>
+    <delete dir="${cmd-gui.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.cmd-gui" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.cmd-gui" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.cmd-gui:jar" value="${basedir}/build/classes/artifacts/Cmd_GUI_jar"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.Cmd-GUI.jar" value="${artifacts.temp.dir}/Cmd-GUI.jar"/>
+  </target>
+  
+  <target name="artifact.cmd-gui:jar" depends="init.artifacts, compile.module.cmd-gui" description="Build &#39;Cmd-GUI:jar&#39; artifact">
+    <property name="artifact.temp.output.cmd-gui:jar" value="${artifacts.temp.dir}/Cmd_GUI_jar"/>
+    <mkdir dir="${artifact.temp.output.cmd-gui:jar}"/>
+    <jar destfile="${temp.jar.path.Cmd-GUI.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${cmd-gui.output.dir}"/>
+    </jar>
+    <copy file="${temp.jar.path.Cmd-GUI.jar}" tofile="${artifact.temp.output.cmd-gui:jar}/Cmd-GUI.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.cmd-gui:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.cmd-gui:jar}"/>
+    <copy todir="${artifact.output.cmd-gui:jar}">
+      <fileset dir="${artifact.temp.output.cmd-gui:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
